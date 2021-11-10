@@ -9,4 +9,6 @@ RUN pip install mysql-connector-python
 RUN pip install Flask
 RUN pip install ConfigParser
 
+EXPOSE 5000
+
 CMD ["python3", "apiserver.py"]

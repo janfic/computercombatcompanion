@@ -34,4 +34,4 @@ def getStats():
 def getMatchData(id):
     return "You requested match information on match with ID: '" + str(id) + "'."
     
-app.run(host='127.0.0.1', port=2357)
+app.run(host='0.0.0.0', port=5000)
