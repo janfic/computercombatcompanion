@@ -10,6 +10,7 @@ import { CardComponent } from './card/card.component';
 import { StatsComponent } from './stats/stats.component';
 import { MatchComponent } from './match/match.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ApiComponent } from './api/api.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     DeckComponent,
     CardComponent,
     StatsComponent,
-    MatchComponent
+    MatchComponent,
+    ApiComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ApiComponent } from '../api/api.component';
+import { DeckData } from '../model/deck-data.model';
 
 @Component({
   selector: 'app-deck',
@@ -9,10 +12,10 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 export class DeckComponent implements OnInit {
 
   id: number
+  data: string
+  api: ApiComponent<DeckData>
 
-  constructor(private route: ActivatedRoute) {
-    this.id = 0;
-  }
+  constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((route: ParamMap) => {
@@ -21,5 +24,7 @@ export class DeckComponent implements OnInit {
         this.id = +id;
       }
     });
+    this.api = new ApiComponent(this.http)
+    this.api.getCallToURL("http://localhost:8080/deck/" + this.id).subscribe((data: any)=>{this.data = JSON.stringify(data)})
   }
 }

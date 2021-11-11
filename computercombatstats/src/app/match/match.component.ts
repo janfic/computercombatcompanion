@@ -1,5 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ApiComponent } from '../api/api.component';
+import { MatchData } from '../model/match-data.model';
+
 
 @Component({
   selector: 'app-match',
@@ -9,10 +13,10 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 export class MatchComponent implements OnInit {
 
   id: number
+  data: string
+  api: ApiComponent<MatchData>
 
-  constructor(private route: ActivatedRoute) {
-    this.id = 0;
-  }
+  constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((route: ParamMap) => {
@@ -21,5 +25,7 @@ export class MatchComponent implements OnInit {
         this.id = +id;
       }
     });
+    this.api = new ApiComponent(this.http);
+    this.api.getCallToURL("http://localhost:8080/match/" + this.id).subscribe((data: any) => {this.data = JSON.stringify(data)});
   }
 }

@@ -18,29 +18,29 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/player/<username>')
 @cross_origin()
 def getPlayerData(username):
-    return { "username" : username }
+    return {"data" : "You requested player information on player: '" + str(username) + "'."}
 
 @app.route('/card/<name>')
 @cross_origin()
 def getCardData(name):
-    return "You requested card information on card: '" + str(name) + "'."
+    return {"data" : "You requested card information on card: '" + str(name) + "'."}
 
 
 @app.route('/deck/<id>')
 @cross_origin()
 def getDeckData(id):
-    return "You requested deck information on deck with ID: '" + str(id) + "'."
+    return {"data" : "You requested deck information on deck with ID: '" + str(id) + "'."}
     
 
 @app.route('/stats')
 @cross_origin()
 def getStats():
-    return "You requested game stats."
+    return {"data" : "You requested game stats."}
     
 
 @app.route('/match/<id>')
 @cross_origin()
 def getMatchData(id):
-    return "You requested match information on match with ID: '" + str(id) + "'."
+    return {"data" : "You requested match information on match with ID: '" + str(id) + "'."}
     
 app.run(host='0.0.0.0', port=5000)

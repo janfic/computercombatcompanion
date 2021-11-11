@@ -1,10 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-
-export class PlayerData {
-  name: string
-}
+import { ApiComponent } from '../api/api.component';
+import { PlayerData } from '../model/player-data.model';
 
 @Component({
   selector: 'app-player',
@@ -15,6 +13,7 @@ export class PlayerComponent implements OnInit {
 
   username: string;
   data: string;
+  api: ApiComponent<PlayerData>
 
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
@@ -25,6 +24,7 @@ export class PlayerComponent implements OnInit {
         this.username = username;
       }
     });
-    this.http.get<PlayerData>("http://localhost:8080/player/" + this.username).subscribe(data => { this.data = JSON.stringify(data) });
+    this.api = new ApiComponent<PlayerData>(this.http);
+    this.api.getCallToURL("http://localhost:8080/player/" + this.username).subscribe((data: any) => { this.data = JSON.stringify(data) })
   }
 }

@@ -1,5 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ApiComponent } from '../api/api.component';
+import { CardData } from '../model/card-data.model';
 
 @Component({
   selector: 'app-card',
@@ -9,8 +12,10 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 export class CardComponent implements OnInit {
 
   name: string;
+  api: ApiComponent<CardData>
+  data: string
 
-  constructor(private route: ActivatedRoute) { this.name = "" }
+  constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((route: ParamMap) =>{
@@ -18,7 +23,9 @@ export class CardComponent implements OnInit {
       if(name) {
         this.name = name.replace("_", " ");
       }
-    })
+    });
+    this.api = new ApiComponent<CardData>(this.http);
+    this.api.getCallToURL("http://localhost:8080/card/" + this.name.replace(" ", "_")).subscribe((data: any)=>{ this.data = JSON.stringify(data)})
   }
 
 }
