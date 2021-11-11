@@ -9,6 +9,7 @@ import { DeckComponent } from './deck/deck.component';
 import { CardComponent } from './card/card.component';
 import { StatsComponent } from './stats/stats.component';
 import { MatchComponent } from './match/match.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { MatchComponent } from './match/match.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

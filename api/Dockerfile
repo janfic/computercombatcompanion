@@ -8,6 +8,7 @@ COPY sql.properties sql.properties
 RUN pip install mysql-connector-python
 RUN pip install Flask
 RUN pip install ConfigParser
+RUN pip install -U flask-cors
 
 EXPOSE 5000
 
