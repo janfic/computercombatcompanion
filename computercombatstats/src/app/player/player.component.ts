@@ -12,7 +12,7 @@ import { PlayerData } from '../model/player-data.model';
 export class PlayerComponent implements OnInit {
 
   username: string;
-  data: string;
+  playerData: PlayerData;
   api: ApiComponent<PlayerData>
 
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
@@ -25,6 +25,6 @@ export class PlayerComponent implements OnInit {
       }
     });
     this.api = new ApiComponent<PlayerData>(this.http);
-    this.api.getCallToURL("http://localhost:8080/player/" + this.username).subscribe((data: any) => { this.data = JSON.stringify(data) })
+    this.api.getCallToURL("http://localhost:8080/player/" + this.username).subscribe((data: any) => { this.playerData = data })
   }
 }
