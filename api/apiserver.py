@@ -26,9 +26,23 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/player/<username>')
 @cross_origin()
 def getPlayerData(username):
+
+    sql = "SELECT * FROM profile WHERE username = '" + str(username) + "';"
+    cursor.execute(sql)
+    row = cursor.fetchone()
+
+    sql = "SELECT id FROM deck WHERE profile_id = '" + row['uid'] + "';"
+    cursor.execute(sql)
+    deck_rows = cursor.fetchall()
+
+    decks = []
+    for deck_row in deck_rows:
+        decks.append(json.loads(getDeckData(deck_row['id']).get_data()))
+
     return {
-        "username": (username),
-        "uid": "abcdefghijklmnop"
+        "username": row['username'],
+        "uid": row['uid'],
+        "decks" : decks,
     }
 
 # API for retrieving data about a specific card
@@ -41,7 +55,7 @@ def getCardData(identifier):
     identifier = str(identifier)
 
     if identifier.isdigit():
-        sql = "SELECT * FROM card WHERE id = '" + identifier + "';"
+        sql = "SELECT * FROM card WHERE id = " + identifier + ";"
     else:
         identifier = identifier.replace("_", " ")
         sql = "SELECT * FROM card WHERE name = '" + identifier + "';"
@@ -49,6 +63,14 @@ def getCardData(identifier):
     cursor.execute(sql)
 
     row = cursor.fetchone()
+
+    sql = "SELECT component_id FROM run_requirements WHERE card_id = " + str(row['id']) + ";"
+    cursor.execute(sql)
+    run_components_rows = cursor.fetchall()
+
+    run_requirements = []
+    for run_component in run_components_rows:
+        run_requirements.append(getComponentData(run_component['component_id']))
 
     return {
         "name": row['name'],
@@ -59,7 +81,7 @@ def getCardData(identifier):
         "maxDefense": int(row['maxDefense']),
         "maxAttack": int(row['maxAttack']),
         "runRequirements": int(row['runRequirements']),
-        "runComponents": [getComponentData(0), getComponentData(1)],
+        "runComponents": run_requirements,
         "ability": getAbilityData(int(row['ability_id']))
     }
 
@@ -70,11 +92,11 @@ def getCardData(identifier):
 @cross_origin()
 def getDeckData(id):
 
-    sql = "SELECT * FROM deck WHERE id = " + str(id) + ";";
+    sql = "SELECT * FROM deck WHERE id = " + str(id) + ";"
     cursor.execute(sql)
     deck_row = cursor.fetchone()
 
-    sql = "SELECT * FROM deck_has_card WHERE deck_id = " + str(id) + ";";
+    sql = "SELECT * FROM deck_has_card WHERE deck_id = " + str(id) + ";"
     cursor.execute(sql)
     deck_card_rows = cursor.fetchall()
 
@@ -85,7 +107,7 @@ def getDeckData(id):
             cards.append(json.loads(getCardData(card_row['card_id']).get_data()))
 
     return {
-        "name" : "[TEST NAME]",
+        "name" : deck_row['name'],
         "id" : int(id),
         "cards" : cards
     }
@@ -108,11 +130,18 @@ def getMatchData(id):
 
 
 def getAbilityData(id):
-    return {"id": id, "name": "[TEST NAME]", "textureName": "[TEST TEXTURE NAME]", "description": "[TEST DESCRIPTION]"}
+    sql = "SELECT * FROM ability WHERE id = '" + str(id) + "';"
+    cursor.execute(sql)
+    row = cursor.fetchone()
+
+    return {"id": row['id'], "name": row['name'], "textureName": row['textureName'], "description": row['description']}
 
 
 def getComponentData(id):
-    return {"id": id, "name": "[TEST NAME]", "textureName": "[TEST TEXTURE NAME]"}
+    sql = "SELECT * FROM components WHERE id = '" + str(id) + "';"
+    cursor.execute(sql)
+    row = cursor.fetchone()
+    return {"id": row['id'], "name": row['name'], "textureName": row['textureName']}
 
 
 # run app
