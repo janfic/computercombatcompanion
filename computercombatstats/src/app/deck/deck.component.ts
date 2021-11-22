@@ -12,11 +12,11 @@ import { DeckData } from '../model/deck-data.model';
 export class DeckComponent implements OnInit {
 
   id: number
-  data: string
+  deckData: DeckData
   api: ApiComponent<DeckData>
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
-
+ 
   ngOnInit(): void {
     this.route.paramMap.subscribe((route: ParamMap) => {
       var id = route.get("id");
@@ -25,6 +25,6 @@ export class DeckComponent implements OnInit {
       }
     });
     this.api = new ApiComponent(this.http)
-    this.api.getCallToURL("http://localhost:8080/deck/" + this.id).subscribe((data: any)=>{this.data = JSON.stringify(data)})
+    this.api.getCallToURL("http://localhost:8080/deck/" + this.id).subscribe((data: any)=>{this.deckData = data})
   }
 }

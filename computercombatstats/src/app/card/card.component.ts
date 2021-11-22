@@ -13,7 +13,7 @@ export class CardComponent implements OnInit {
 
   name: string;
   api: ApiComponent<CardData>
-  data: string
+  cardData: CardData
 
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
@@ -25,7 +25,7 @@ export class CardComponent implements OnInit {
       }
     });
     this.api = new ApiComponent<CardData>(this.http);
-    this.api.getCallToURL("http://localhost:8080/card/" + this.name.replace(" ", "_")).subscribe((data: any)=>{ this.data = JSON.stringify(data)})
+    this.api.getCallToURL("http://localhost:8080/card/" + this.name.replace(" ", "_")).subscribe((data: any)=>{ this.cardData = data})
   }
 
 }

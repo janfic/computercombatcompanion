@@ -1,2 +1,12 @@
 <p>Loaded DeckComponent to view data on Deck with id: {{id}}</p>
-<p>{{data}}</p>
+<p>Deck #: {{deckData.id}}</p>
+<p>Data:</p>
+<ul>
+    <li>Name: {{deckData.name}}</li>
+    <li>Name: {{deckData.name}}</li>
+    <ul>
+        <li *ngFor="let card of deckData.cards; let i = index"> (1)
+            {{i + 1}} - {{card.name}}
+        </li>
+    </ul>
+</ul>

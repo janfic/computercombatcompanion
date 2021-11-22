@@ -4,6 +4,6 @@ import { PlayerData } from "./player-data.model";
 export class DeckData {
     name: string;
     id: number;
-    owner: PlayerData;
+    owner: string;
     cards: CardData[];
 }

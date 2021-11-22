@@ -1,5 +1,7 @@
 import mysql.connector
-from flask import Flask
+from flask import Flask, jsonify
+import sys
+import json
 import configparser
 # Qualty of Life package for CORS with Flask ( when developing on same machine )
 from flask_cors import CORS, cross_origin
@@ -11,7 +13,7 @@ sql_config.read('sql.properties')
 # Connect to data base and create cursor
 cnx = mysql.connector.connect(user=sql_config['DEFAULT']['user'], password=sql_config['DEFAULT']
                               ['password'], host=sql_config['DEFAULT']['host'], database=sql_config['DEFAULT']['database'])
-cursor = cnx.cursor(buffered=True)
+cursor = cnx.cursor(buffered=True, dictionary=True)
 
 # Create Flask app and apply cors
 app = Flask(__name__)
@@ -35,17 +37,26 @@ def getPlayerData(username):
 @app.route('/card/<name>')
 @cross_origin()
 def getCardData(name):
+
+    name = name.replace("_", " ")
+
+    sql = "SELECT * FROM card WHERE name = '" + str(name) + "';"
+
+    cursor.execute(sql)
+
+    row = cursor.fetchone()
+
     return {
         "name": name,
-        "id": -1,
-        "collection": 1,
-        "textureName": "[TEST TEXTURE NAME]",
-        "maxHealth": -1,
-        "maxDefense": -1,
-        "maxAttack": -1,
-        "runRequirements": -1,
+        "id": int(row['id']),
+        "collection": int(row['collection_id']),
+        "textureName": row['textureName'],
+        "maxHealth": int(row['maxHealth']),
+        "maxDefense": int(row['maxDefense']),
+        "maxAttack": int(row['maxAttack']),
+        "runRequirements": int(row['runRequirements']),
         "runComponents": [getComponentData(0), getComponentData(1)],
-        "ability": getAbilityData(0)
+        "ability": getAbilityData(int(row['ability_id']))
     }
 
 # API for retrieving data about a specific deck
@@ -54,7 +65,12 @@ def getCardData(name):
 @app.route('/deck/<id>')
 @cross_origin()
 def getDeckData(id):
-    return {"data": "You requested deck information on deck with ID: '" + str(id) + "'."}
+
+    return {
+        "name" : "[TEST NAME]",
+        "id" : int(id),
+        "cards" : [json.loads(getCardData("Virus").get_data()), json.loads(getCardData("Fire Wall").get_data())]
+    }
 
 # API for retrieving macro data about the game
 
