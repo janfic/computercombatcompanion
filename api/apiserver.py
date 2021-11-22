@@ -34,20 +34,24 @@ def getPlayerData(username):
 # API for retrieving data about a specific card
 
 
-@app.route('/card/<name>')
+@app.route('/card/<identifier>')
 @cross_origin()
-def getCardData(name):
+def getCardData(identifier):
 
-    name = name.replace("_", " ")
+    identifier = str(identifier)
 
-    sql = "SELECT * FROM card WHERE name = '" + str(name) + "';"
+    if identifier.isdigit():
+        sql = "SELECT * FROM card WHERE id = '" + identifier + "';"
+    else:
+        identifier = identifier.replace("_", " ")
+        sql = "SELECT * FROM card WHERE name = '" + identifier + "';"
 
     cursor.execute(sql)
 
     row = cursor.fetchone()
 
     return {
-        "name": name,
+        "name": row['name'],
         "id": int(row['id']),
         "collection": int(row['collection_id']),
         "textureName": row['textureName'],
@@ -66,10 +70,24 @@ def getCardData(name):
 @cross_origin()
 def getDeckData(id):
 
+    sql = "SELECT * FROM deck WHERE id = " + str(id) + ";";
+    cursor.execute(sql)
+    deck_row = cursor.fetchone()
+
+    sql = "SELECT * FROM deck_has_card WHERE deck_id = " + str(id) + ";";
+    cursor.execute(sql)
+    deck_card_rows = cursor.fetchall()
+
+    cards = []
+
+    for card_row in deck_card_rows:
+        for x in range(1, card_row['amount']):
+            cards.append(json.loads(getCardData(card_row['card_id']).get_data()))
+
     return {
         "name" : "[TEST NAME]",
         "id" : int(id),
-        "cards" : [json.loads(getCardData("Virus").get_data()), json.loads(getCardData("Fire Wall").get_data())]
+        "cards" : cards
     }
 
 # API for retrieving macro data about the game
