@@ -21,8 +21,6 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 # API for retrieving data about a specific player
-
-
 @app.route('/player/<username>')
 @cross_origin()
 def getPlayerData(username):
@@ -46,8 +44,6 @@ def getPlayerData(username):
     }
 
 # API for retrieving data about a specific card
-
-
 @app.route('/card/<identifier>')
 @cross_origin()
 def getCardData(identifier):
@@ -86,8 +82,6 @@ def getCardData(identifier):
     }
 
 # API for retrieving data about a specific deck
-
-
 @app.route('/deck/<id>')
 @cross_origin()
 def getDeckData(id):
@@ -113,21 +107,16 @@ def getDeckData(id):
     }
 
 # API for retrieving macro data about the game
-
-
 @app.route('/stats')
 @cross_origin()
 def getStats():
     return {"data": "You requested game stats."}
 
 # API for retrieving data about a specific match between players
-
-
 @app.route('/match/<id>')
 @cross_origin()
 def getMatchData(id):
     return {"data": "You requested match information on match with ID: '" + str(id) + "'."}
-
 
 def getAbilityData(id):
     sql = "SELECT * FROM ability WHERE id = '" + str(id) + "';"
@@ -136,13 +125,11 @@ def getAbilityData(id):
 
     return {"id": row['id'], "name": row['name'], "textureName": row['textureName'], "description": row['description']}
 
-
 def getComponentData(id):
     sql = "SELECT * FROM components WHERE id = '" + str(id) + "';"
     cursor.execute(sql)
     row = cursor.fetchone()
     return {"id": row['id'], "name": row['name'], "textureName": row['textureName']}
-
 
 # run app
 app.run(host='0.0.0.0', port=5000)
