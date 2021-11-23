@@ -133,3 +133,6 @@ def getComponentData(id):
 
 # run app
 app.run(host='0.0.0.0', port=5000)
+
+cursor.close()
+cnx.close()
