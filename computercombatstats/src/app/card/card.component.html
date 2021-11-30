@@ -1,11 +1,24 @@
-<p>Loaded CardComponent to view data on match with name: {{name}}</p>
+<p>Loaded CardComponent to view data on card with name: {{name}}</p>
 <p>Card Name: {{cardData.name}}</p>
-<p>Card Stats</p>
+<p>Card Info</p>
 <ul>
     <li>Health: {{cardData.maxHealth}}</li>
     <li>Defense: {{cardData.maxDefense}}</li>
     <li>Attack: {{cardData.maxAttack}}</li>
     <li>Run Requirements: {{cardData.runRequirements}}</li>
-    <li>Ability: {{cardData.ability}}</li>
+    <li>Run Components:
+        <ul>
+            <li *ngFor="let component of cardData.runComponents">
+                {{component.name}}
+            </li>
+        </ul>
+    </li>
+    <li>Ability: {{cardData.ability.name}}
+        <ul>
+            <li> Description: {{cardData.ability.description}}</li>
+            <li> Texture Name: {{cardData.ability.textureName}}</li>
+            <li> ID: {{cardData.ability.id}}</li>
+        </ul>
+    </li>
     <li>Texture Name: {{cardData.textureName}}</li>
 </ul>

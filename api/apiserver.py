@@ -24,7 +24,6 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/player/<username>')
 @cross_origin()
 def getPlayerData(username):
-
     sql = "SELECT * FROM profile WHERE username = '" + str(username) + "';"
     cursor.execute(sql)
     row = cursor.fetchone()
@@ -37,10 +36,18 @@ def getPlayerData(username):
     for deck_row in deck_rows:
         decks.append(json.loads(getDeckData(deck_row['id']).get_data()))
 
+    sql = "SELECT id, starttime FROM `match` JOIN profile ON `match`.player1_uid = profile.uid OR `match`.player2_uid = profile.uid ORDER BY starttime LIMIT 10;"
+    cursor.execute(sql)
+    match_rows = cursor.fetchall()
+    matches = []
+    for match_row in match_rows:
+        matches.append(json.loads(getMatchData(match_row['id']).get_data()))
+
     return {
         "username": row['username'],
         "uid": row['uid'],
         "decks" : decks,
+        "matches" : matches
     }
 
 # API for retrieving data about a specific card
@@ -116,7 +123,21 @@ def getStats():
 @app.route('/match/<id>')
 @cross_origin()
 def getMatchData(id):
-    return {"data": "You requested match information on match with ID: '" + str(id) + "'."}
+
+    sql = "SELECT * FROM `match` WHERE id = " + str(id) + ";"
+    cursor.execute(sql)
+    row = cursor.fetchone()
+
+    return {
+        "id" : row['id'],
+        "player1" : row['player1_uid'],
+        "player2" : row['player2_uid'],
+        "deck1" : json.loads(getDeckData(row['deck1_id']).get_data()),
+        "deck2" : json.loads(getDeckData(row['deck2_id']).get_data()),
+        "winner" : row['winner'],
+        "starttime" : row['starttime'],
+        'endtime' : row['endtime']
+    }
 
 def getAbilityData(id):
     sql = "SELECT * FROM ability WHERE id = '" + str(id) + "';"
