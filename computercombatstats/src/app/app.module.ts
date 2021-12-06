@@ -11,6 +11,7 @@ import { StatsComponent } from './stats/stats.component';
 import { MatchComponent } from './match/match.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiComponent } from './api/api.component';
+import { PlayerSearchComponent } from './player-search/player-search.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ApiComponent } from './api/api.component';
     CardComponent,
     StatsComponent,
     MatchComponent,
-    ApiComponent
+    ApiComponent,
+    PlayerSearchComponent
   ],
   imports: [
     BrowserModule,

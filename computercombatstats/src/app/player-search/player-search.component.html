@@ -1,0 +1,5 @@
+<p>Search for a player:</p>
+<div>
+    <input type="text" (keyup)="onKey($event)"placeholder="Enter a username...">
+    <a routerLink="/player/{{searchValue}}"><button>Search</button></a>
+</div>

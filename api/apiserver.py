@@ -11,9 +11,16 @@ sql_config = configparser.ConfigParser()
 sql_config.read('sql.properties')
 
 # Connect to data base and create cursor
-cnx = mysql.connector.connect(user=sql_config['DEFAULT']['user'], password=sql_config['DEFAULT']
-                              ['password'], host=sql_config['DEFAULT']['host'], database=sql_config['DEFAULT']['database'])
-cursor = cnx.cursor(buffered=True, dictionary=True)
+
+dbconfig = {
+    "user" : sql_config['DEFAULT']['user'],
+    "password" : sql_config['DEFAULT']['password'],
+    "host" : sql_config['DEFAULT']['host'],
+    "database" : sql_config['DEFAULT']['database']
+}
+
+cnx = mysql.connector.connect(pool_name="api_pool", **dbconfig)
+cnx.close()
 
 # Create Flask app and apply cors
 app = Flask(__name__)
@@ -24,6 +31,10 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/player/<username>')
 @cross_origin()
 def getPlayerData(username):
+
+    cnx = mysql.connector.connect(pool_name="api_pool", **dbconfig)
+    cursor = cnx.cursor(buffered=True, dictionary=True)
+
     sql = "SELECT * FROM profile WHERE username = '" + str(username) + "';"
     cursor.execute(sql)
     row = cursor.fetchone()
@@ -42,6 +53,8 @@ def getPlayerData(username):
     matches = []
     for match_row in match_rows:
         matches.append(json.loads(getMatchData(match_row['id']).get_data()))
+
+    cursor.close()
 
     return {
         "username": row['username'],
