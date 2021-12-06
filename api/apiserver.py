@@ -59,7 +59,7 @@ def queryPlayer(username, cursor):
     for deck_row in deck_rows:
         decks.append(queryDeck(deck_row['id'], cursor))
 
-    sql = "SELECT id, starttime FROM `match` JOIN profile ON `match`.player1_uid = profile.uid OR `match`.player2_uid = profile.uid ORDER BY starttime LIMIT 10;"
+    sql = "SELECT id, starttime FROM `match` JOIN profile ON `match`.player1_uid = profile.uid OR `match`.player2_uid = profile.uid WHERE profile.uid = '" + row['uid'] + "' ORDER BY starttime LIMIT 10;"
     cursor.execute(sql)
     match_rows = cursor.fetchall()
     matches = []

@@ -5,7 +5,7 @@
     <li>Name: {{deckData.name}}</li>
     <li>Name: {{deckData.name}}</li>
     <ul>
-        <li *ngFor="let card of deckData.cards; let i = index"> (1)
+        <li *ngFor="let card of deckData.cards; let i = index">
             {{i + 1}} - {{card.name}}
         </li>
     </ul>

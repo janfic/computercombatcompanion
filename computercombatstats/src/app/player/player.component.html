@@ -1,14 +1,31 @@
-<p>Loaded Component for user: {{username}}</p>
-<p>PlayerData API Get Request Response:</p>
-<p>Player Username: {{playerData.username}}</p>
-<p>Player UID: {{playerData.uid}}</p>
-<ul>
-    <p>Matches:</p>
-    <li *ngFor="let match of playerData.matches; let i = index">
-        <ul>
-            Players
-            <li>{{match.player1}}</li>
-            <li>{{match.player2}}</li>
+<div class="body">
+    <div class="playerData">
+        <h2 style="width: 100%; text-align: center">Player</h2>
+        <h2 style="width: 100%; text-align: center">{{playerData.username}}</h2>
+    </div>
+    <div class="info">
+        <ul class="playerData panel">
+            <h3 style="width: 100%; text-align: center">Recent Matches</h3>
+            <li *ngFor="let match of playerData.matches; let i = index" class="match"
+                [ngClass]="{'loss' : match.winner === 0 && match.player2 === playerData.username || match.winner === 1 && match.player1 === playerData.username}">
+                <div style="width: 100%; text-align: center"><a href="/match/{{match.id}}">Match #{{match.id}}</a></div>
+                {{match.winner === 0 && match.player2 === playerData.username || match.winner === 1 && match.player1 ===
+                playerData.username ? 'Loss' : 'Win'}}
+                <br>
+                {{playerData.username}} vs. <a
+                    href="/player/{{match.player1 === playerData.username ? match.player2 : match.player1}}">{{match.player1
+                    === playerData.username ? match.player2 : match.player1}}</a>
+            </li>
         </ul>
-    </li>
-</ul>
+        <ul class="playerData panel">
+            <h3 style="width: 100%; text-align: center">Decks</h3>
+            <li *ngFor="let deck of playerData.decks; let i = index;" class="deck">
+                <div style="width: 100%; text-align: center"><a href="/deck/{{deck.id}}"> Deck #{{i + 1}}</a></div>
+                Name: {{deck.name}}
+                <br>
+                ID: {{deck.id}}
+            </li>
+        </ul>
+    </div>
+
+</div>
