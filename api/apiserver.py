@@ -13,10 +13,10 @@ sql_config.read('sql.properties')
 # Connect to data base and create cursor
 
 dbconfig = {
-    "user" : sql_config['DEFAULT']['user'],
-    "password" : sql_config['DEFAULT']['password'],
-    "host" : sql_config['DEFAULT']['host'],
-    "database" : sql_config['DEFAULT']['database']
+    "user": sql_config['DEFAULT']['user'],
+    "password": sql_config['DEFAULT']['password'],
+    "host": sql_config['DEFAULT']['host'],
+    "database": sql_config['DEFAULT']['database']
 }
 
 cnx = mysql.connector.connect(pool_name="api_pool", **dbconfig)
@@ -28,12 +28,24 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 # API for retrieving data about a specific player
+
+
 @app.route('/player/<username>')
 @cross_origin()
 def getPlayerData(username):
 
     cnx = mysql.connector.connect(pool_name="api_pool", **dbconfig)
     cursor = cnx.cursor(buffered=True, dictionary=True)
+
+    data = queryPlayer(username, cursor)
+
+    cursor.close()
+    cnx.close()
+
+    return data
+
+
+def queryPlayer(username, cursor):
 
     sql = "SELECT * FROM profile WHERE username = '" + str(username) + "';"
     cursor.execute(sql)
@@ -45,29 +57,41 @@ def getPlayerData(username):
 
     decks = []
     for deck_row in deck_rows:
-        decks.append(json.loads(getDeckData(deck_row['id']).get_data()))
+        decks.append(queryDeck(deck_row['id'], cursor))
 
     sql = "SELECT id, starttime FROM `match` JOIN profile ON `match`.player1_uid = profile.uid OR `match`.player2_uid = profile.uid ORDER BY starttime LIMIT 10;"
     cursor.execute(sql)
     match_rows = cursor.fetchall()
     matches = []
     for match_row in match_rows:
-        matches.append(json.loads(getMatchData(match_row['id']).get_data()))
-
-    cursor.close()
+        matches.append(queryMatch(match_row['id'], cursor))
 
     return {
         "username": row['username'],
         "uid": row['uid'],
-        "decks" : decks,
-        "matches" : matches
+        "decks": decks,
+        "matches": matches
     }
 
 # API for retrieving data about a specific card
+
+
 @app.route('/card/<identifier>')
 @cross_origin()
 def getCardData(identifier):
 
+    cnx = mysql.connector.connect(pool_name="api_pool", **dbconfig)
+    cursor = cnx.cursor(buffered=True, dictionary=True)
+
+    data = queryCard(identifier, cursor)
+
+    cursor.close()
+    cnx.close()
+
+    return data
+
+
+def queryCard(identifier, cursor):
     identifier = str(identifier)
 
     if identifier.isdigit():
@@ -77,7 +101,6 @@ def getCardData(identifier):
         sql = "SELECT * FROM card WHERE name = '" + identifier + "';"
 
     cursor.execute(sql)
-
     row = cursor.fetchone()
 
     sql = "SELECT component_id FROM run_requirements WHERE card_id = " + str(row['id']) + ";"
@@ -86,7 +109,8 @@ def getCardData(identifier):
 
     run_requirements = []
     for run_component in run_components_rows:
-        run_requirements.append(getComponentData(run_component['component_id']))
+        run_requirements.append(getComponentData(
+            run_component['component_id'], cursor))
 
     return {
         "name": row['name'],
@@ -98,14 +122,28 @@ def getCardData(identifier):
         "maxAttack": int(row['maxAttack']),
         "runRequirements": int(row['runRequirements']),
         "runComponents": run_requirements,
-        "ability": getAbilityData(int(row['ability_id']))
+        "ability": getAbilityData(int(row['ability_id']), cursor)
     }
 
 # API for retrieving data about a specific deck
+
+
 @app.route('/deck/<id>')
 @cross_origin()
 def getDeckData(id):
 
+    cnx = mysql.connector.connect(pool_name="api_pool", **dbconfig)
+    cursor = cnx.cursor(buffered=True, dictionary=True)
+
+    data = queryDeck(id, cursor)
+
+    cursor.close()
+    cnx.close()
+
+    return data
+
+
+def queryDeck(id, cursor):
     sql = "SELECT * FROM deck WHERE id = " + str(id) + ";"
     cursor.execute(sql)
     deck_row = cursor.fetchone()
@@ -118,55 +156,70 @@ def getDeckData(id):
 
     for card_row in deck_card_rows:
         for x in range(1, card_row['amount']):
-            cards.append(json.loads(getCardData(card_row['card_id']).get_data()))
+            cards.append(queryCard(card_row['card_id'], cursor))
 
     return {
-        "name" : deck_row['name'],
-        "id" : int(id),
-        "cards" : cards
+        "name": deck_row['name'],
+        "id": int(id),
+        "cards": cards
     }
 
 # API for retrieving macro data about the game
+
+
 @app.route('/stats')
 @cross_origin()
 def getStats():
     return {"data": "You requested game stats."}
 
 # API for retrieving data about a specific match between players
+
+
 @app.route('/match/<id>')
 @cross_origin()
 def getMatchData(id):
+    cnx = mysql.connector.connect(pool_name="api_pool", **dbconfig)
+    cursor = cnx.cursor(buffered=True, dictionary=True)
 
+    data = queryMatch(id, cursor)
+
+    cursor.close()
+    cnx.close()
+
+    return data
+
+
+def queryMatch(id, cursor):
     sql = "SELECT * FROM `match` WHERE id = " + str(id) + ";"
     cursor.execute(sql)
     row = cursor.fetchone()
 
     return {
-        "id" : row['id'],
-        "player1" : row['player1_uid'],
-        "player2" : row['player2_uid'],
-        "deck1" : json.loads(getDeckData(row['deck1_id']).get_data()),
-        "deck2" : json.loads(getDeckData(row['deck2_id']).get_data()),
-        "winner" : row['winner'],
-        "starttime" : row['starttime'],
-        'endtime' : row['endtime']
+        "id": row['id'],
+        "player1": row['player1_uid'],
+        "player2": row['player2_uid'],
+        "deck1": queryDeck(row['deck1_id'], cursor),
+        "deck2": queryDeck(row['deck2_id'], cursor),
+        "winner": row['winner'],
+        "starttime": row['starttime'],
+        'endtime': row['endtime']
     }
 
-def getAbilityData(id):
+
+def getAbilityData(id, cursor):
     sql = "SELECT * FROM ability WHERE id = '" + str(id) + "';"
     cursor.execute(sql)
     row = cursor.fetchone()
 
     return {"id": row['id'], "name": row['name'], "textureName": row['textureName'], "description": row['description']}
 
-def getComponentData(id):
+
+def getComponentData(id, cursor):
     sql = "SELECT * FROM components WHERE id = '" + str(id) + "';"
     cursor.execute(sql)
     row = cursor.fetchone()
     return {"id": row['id'], "name": row['name'], "textureName": row['textureName']}
 
+
 # run app
 app.run(host='0.0.0.0', port=5000)
-
-cursor.close()
-cnx.close()
