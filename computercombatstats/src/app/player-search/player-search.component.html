@@ -1,5 +1,11 @@
-<p>Search for a player:</p>
-<div>
-    <input type="text" (keyup)="onKey($event)"placeholder="Enter a username...">
-    <a routerLink="/player/{{searchValue}}"><button>Search</button></a>
+<div class="playersearch">
+    <img src="../../assets/images/banner.png"  style="width: 25%; margin-bottom: 4em;">
+    <div class="field">
+        <mat-form-field appearance="outline">
+            <mat-label>Search for a player</mat-label>
+            <input matInput type="text" (keyup)="onKey($event)" placeholder="Enter a username...">
+        </mat-form-field>
+        <br>
+        <a routerLink="/player/{{searchValue}}"><button mat-flat-button color="primary">Search</button></a>
+    </div>
 </div>

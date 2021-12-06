@@ -12,6 +12,12 @@ import { MatchComponent } from './match/match.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiComponent } from './api/api.component';
 import { PlayerSearchComponent } from './player-search/player-search.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+
 
 @NgModule({
   declarations: [
@@ -28,7 +34,12 @@ import { PlayerSearchComponent } from './player-search/player-search.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatSliderModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

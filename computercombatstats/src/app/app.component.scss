@@ -3,14 +3,25 @@ ul {
     margin: 0;
     padding: 0;
     display: flex;
-    background-color: lightskyblue;
+    background-color: #333941;
+    width: 100%;
+    position: fixed;
 }
 
 li {
     flex: content;
-    display: inline-block;
+    display: flex;
     height: 2em;
-    align-self: center;
-    padding: 10px;
     text-align: center;
+    justify-content: center;
+    align-items: center;
+    border-left: 1px solid black;
+    font-size: large;
+    vertical-align: middle;
+}
+
+a {
+    vertical-align: middle;
+    text-decoration: none;
+    color: #8b93af;
 }
