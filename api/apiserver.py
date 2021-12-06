@@ -73,6 +73,14 @@ def queryPlayer(username, cursor):
         "matches": matches
     }
 
+
+def queryPlayerUsername(uid, cursor):
+    sql = "SELECT username FROM profile WHERE uid = '" + str(uid) + "';"
+    cursor.execute(sql)
+    row = cursor.fetchone()
+
+    return row['username']
+
 # API for retrieving data about a specific card
 
 
@@ -103,7 +111,8 @@ def queryCard(identifier, cursor):
     cursor.execute(sql)
     row = cursor.fetchone()
 
-    sql = "SELECT component_id FROM run_requirements WHERE card_id = " + str(row['id']) + ";"
+    sql = "SELECT component_id FROM run_requirements WHERE card_id = " + \
+        str(row['id']) + ";"
     cursor.execute(sql)
     run_components_rows = cursor.fetchall()
 
@@ -196,8 +205,8 @@ def queryMatch(id, cursor):
 
     return {
         "id": row['id'],
-        "player1": row['player1_uid'],
-        "player2": row['player2_uid'],
+        "player1": queryPlayerUsername(row['player1_uid'], cursor),
+        "player2": queryPlayerUsername(row['player2_uid'], cursor),
         "deck1": queryDeck(row['deck1_id'], cursor),
         "deck2": queryDeck(row['deck2_id'], cursor),
         "winner": row['winner'],

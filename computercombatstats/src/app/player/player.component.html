@@ -2,4 +2,13 @@
 <p>PlayerData API Get Request Response:</p>
 <p>Player Username: {{playerData.username}}</p>
 <p>Player UID: {{playerData.uid}}</p>
-<p>Matches: {{playerData.matchHistory}}</p>
+<ul>
+    <p>Matches:</p>
+    <li *ngFor="let match of playerData.matches; let i = index">
+        <ul>
+            Players
+            <li>{{match.player1}}</li>
+            <li>{{match.player2}}</li>
+        </ul>
+    </li>
+</ul>
