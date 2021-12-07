@@ -1,8 +1,12 @@
 <div class="body">
     <div class="playerData">
-        <h2 style="width: 100%; text-align: center">Player</h2>
+        <h1 style="width: 100%; text-align: center">Player</h1>
         <h2 style="width: 100%; text-align: center">{{playerData.username}}</h2>
-        Matches: {{playerData.matchCount}}   Wins: {{playerData.matchWins}}   Winrate: {{playerData.matchWins / playerData.matchCount * 100}}%
+        <div style="width: 100%; text-align: center">
+            <p>Matches: {{playerData.matchCount}}</p>
+            <p>Wins: {{playerData.matchWins}}</p>
+            <p>Winrate: {{playerData.matchWins / playerData.matchCount * 100}}%</p>
+        </div>
     </div>
     <div class="info">
         <ul class="playerData panel">
@@ -16,6 +20,8 @@
                 {{playerData.username}} vs. <a
                     href="/player/{{match.player1 === playerData.username ? match.player2 : match.player1}}">{{match.player1
                     === playerData.username ? match.player2 : match.player1}}</a>
+                <br>
+                {{match.starttime}}
             </li>
         </ul>
         <ul class="playerData panel">

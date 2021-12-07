@@ -8,4 +8,6 @@ export class MatchData {
     deck1: DeckData;
     deck2: DeckData;
     winner: number;
+    starttime: string;
+    endtime: string;
 }
