@@ -1,0 +1,50 @@
+.body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.deckData  {
+    background-color: #6d758d;;
+    width: 80%;
+    padding: 20px;
+    border-radius: 40px;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    list-style:  none;
+}
+
+.cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.cardPreview {
+    background-color: #333941;
+    border: #8b93af 2px solid;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    width: 10%;
+}
+
+.cardPreview img {
+    width: 50%;
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+}
+
+a {
+    text-decoration: none;
+    color: #8b93af;
+}

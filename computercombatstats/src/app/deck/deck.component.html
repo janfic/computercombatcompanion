@@ -1,12 +1,17 @@
-<p>Loaded DeckComponent to view data on Deck with id: {{id}}</p>
-<p>Deck #: {{deckData.id}}</p>
-<p>Data:</p>
-<ul>
-    <li>Name: {{deckData.name}}</li>
-    <li>Name: {{deckData.name}}</li>
-    <ul>
-        <li *ngFor="let card of deckData.cards; let i = index">
-            {{i + 1}} - {{card.name}}
-        </li>
+<div class="body">
+    <div class="deckData">
+        <h3>Deck : {{deckData.name}}</h3>
+        Owned By: <a href="/player/{{deckData.owner}}">{{deckData.owner}}</a>
+    </div>
+    <ul class="deckData">
+        <h3>Cards</h3>
+        <ul class="cards">
+            <li *ngFor="let card of deckData.cards; let i = index" class="cardPreview">
+                <a href="/card/{{card.name}}">{{card.name}}
+                    <br>
+                    <img src="../../assets/images/cards/{{card.textureName}}.png">
+                </a>
+            </li>
+        </ul>
     </ul>
-</ul>
+</div>

@@ -59,18 +59,35 @@ def queryPlayer(username, cursor):
     for deck_row in deck_rows:
         decks.append(queryDeck(deck_row['id'], cursor))
 
-    sql = "SELECT id, starttime FROM `match` JOIN profile ON `match`.player1_uid = profile.uid OR `match`.player2_uid = profile.uid WHERE profile.uid = '" + row['uid'] + "' ORDER BY starttime LIMIT 10;"
+    sql = "SELECT id, starttime FROM `match` JOIN profile ON `match`.player1_uid = profile.uid OR `match`.player2_uid = profile.uid WHERE profile.uid = '" + \
+        row['uid'] + "' ORDER BY starttime LIMIT 10;"
     cursor.execute(sql)
     match_rows = cursor.fetchall()
     matches = []
     for match_row in match_rows:
         matches.append(queryMatch(match_row['id'], cursor))
 
+    sql = "SELECT COUNT(*) FROM `match` JOIN profile ON `match`.player1_uid = profile.uid OR `match`.player2_uid = profile.uid WHERE profile.uid = '" + \
+        row['uid'] + "';"
+    cursor.execute(sql)
+    count_all = cursor.fetchone()
+
+    cursor.fetchall()
+
+    sql = "SELECT COUNT(*) FROM `match` JOIN profile ON `match`.player1_uid = profile.uid  OR `match`.player2_uid = profile.uid WHERE profile.uid = '" + \
+        row['uid'] + "' AND ((player1_uid = '" + row['uid'] + \
+        "' AND winner = 0) OR (player2_uid = '" + \
+        row['uid'] + "' AND winner = 1));"
+    cursor.execute(sql)
+    win_count = cursor.fetchone()
+
     return {
         "username": row['username'],
         "uid": row['uid'],
         "decks": decks,
-        "matches": matches
+        "matches": matches,
+        "matchCount": count_all['COUNT(*)'],
+        "matchWins": win_count['COUNT(*)']
     }
 
 
@@ -164,13 +181,14 @@ def queryDeck(id, cursor):
     cards = []
 
     for card_row in deck_card_rows:
-        for x in range(1, card_row['amount']):
+        for x in range(0, card_row['amount']):
             cards.append(queryCard(card_row['card_id'], cursor))
 
     return {
         "name": deck_row['name'],
         "id": int(id),
-        "cards": cards
+        "cards": cards,
+        "owner": queryPlayerUsername(deck_row['profile_id'], cursor)
     }
 
 # API for retrieving macro data about the game

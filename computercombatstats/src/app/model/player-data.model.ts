@@ -4,6 +4,8 @@ import { MatchData } from "./match-data.model";
 export class PlayerData {
     username: string;
     uid: string;
-    matches: MatchData[]
-    decks: DeckData[]
+    matches: MatchData[];
+    decks: DeckData[];
+    matchCount: number;
+    matchWins: number;
 }
