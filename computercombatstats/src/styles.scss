@@ -45,3 +45,6 @@ body {
   background-image: url("assets/images/background.png"); 
   background-repeat: repeat;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
