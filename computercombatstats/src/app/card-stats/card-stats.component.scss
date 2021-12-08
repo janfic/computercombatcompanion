@@ -1,0 +1,48 @@
+.body {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.cardStats {
+    background-color: #6d758d;;
+    width: 80%;
+    padding: 20px;
+    border-radius: 40px;
+    text-align: center;
+    border: 1px solid black;
+    margin: 10px;
+}
+
+.cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    list-style: none;
+    flex-wrap: wrap;
+    row-gap: 30px;
+    column-gap: 10px;
+}
+
+.card {
+    padding: 10px;
+    background: #8b93af;
+    border-radius: 20px;
+    width: 15%;
+    border: 1px solid #333941;
+}
+
+img {
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    background-color: #333941;
+    border: 1px solid black;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}

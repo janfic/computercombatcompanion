@@ -5,7 +5,7 @@
                 <h2>Card</h2>
                 <h3>{{cardData.name}}</h3>
                 <div class="ability">
-                    <img src="../../assets/images/cards/{{cardData.textureName}}.png" width="200px" class="abilityInfo">
+                    <img src="../../assets/images/cards/{{cardData.textureName}}.png" width="200px" style="background-color: #333941; border: 1px solid black">
                     <div class="abilityInfo">
                         Health: {{cardData.maxHealth}}
                         <br>
@@ -27,8 +27,7 @@
                 <h2>Ability</h2>
                 <h3>{{cardData.ability.name}}</h3>
                 <div class="ability">
-                    <img src="../../assets/images/abilities/{{cardData.ability.textureName}}.png" width="200px"
-                        class="abilityInfo">
+                    <img src="../../assets/images/abilities/{{cardData.ability.textureName}}.png" width="200px" style="background-color: #333941;  border: 1px solid black">
                     <p class="abilityInfo" style="width: 50%;">{{cardData.ability.description}} </p>
                 </div>
             </div>

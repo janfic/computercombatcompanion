@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CardStatsComponent } from './card-stats/card-stats.component';
 import { CardComponent } from './card/card.component';
 import { DeckComponent } from './deck/deck.component';
 import { HomeComponent } from './home/home.component';
@@ -13,7 +14,7 @@ const routes: Routes = [
   {path: "home", component: HomeComponent},
   {path: "player", component: PlayerSearchComponent},
   {path: "player/:username", component: PlayerComponent},
-  {path: "cards", component: HomeComponent},
+  {path: "card", component: CardStatsComponent},
   {path: "card/:name", component: CardComponent},
   {path: "deck/:id", component: DeckComponent},
   {path: "stats", component: StatsComponent},

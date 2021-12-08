@@ -1,0 +1,26 @@
+<div class='body'>
+    <div class="cardStats">
+        <h2>Cards</h2>
+        <ul class="cards">
+            <li *ngFor="let card of cardStats.card_stats; let rank = index;" class="card">
+                <a href="/card/{{card.card.name}}">
+                    <div>
+                        <h4 style="text-align: left; width: 100%;">Rank: {{rank + 1}}</h4>
+                        <h3>{{card.card.name}}</h3>
+                        <img src="../../assets/images/cards/{{card.card.textureName}}.png" width="96px">
+                        <br>
+                        Matches Played: {{card.matches}}
+                        <br>
+                        Matches Won: {{card.wins}}
+                        <br>
+                        Winrate: {{(card.matches === 0.00 ? 0 : (card.wins / card.matches * 100)) | number : '1.2-2'}}%
+                        <br>
+                        ID: {{card.card.id}}
+                        <br>
+                        Collection: {{card.card.collection}}
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

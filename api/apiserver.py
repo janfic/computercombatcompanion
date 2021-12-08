@@ -28,8 +28,6 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 # API for retrieving data about a specific player
-
-
 @app.route('/player/<username>')
 @cross_origin()
 def getPlayerData(username):
@@ -43,7 +41,6 @@ def getPlayerData(username):
     cnx.close()
 
     return data
-
 
 def queryPlayer(username, cursor):
 
@@ -60,7 +57,7 @@ def queryPlayer(username, cursor):
         decks.append(queryDeck(deck_row['id'], cursor))
 
     sql = "SELECT id, starttime FROM `match` JOIN profile ON `match`.player1_uid = profile.uid OR `match`.player2_uid = profile.uid WHERE profile.uid = '" + \
-        row['uid'] + "' ORDER BY starttime LIMIT 10;"
+        row['uid'] + "' ORDER BY starttime DESC LIMIT 10;"
     cursor.execute(sql)
     match_rows = cursor.fetchall()
     matches = []
@@ -90,7 +87,6 @@ def queryPlayer(username, cursor):
         "matchWins": win_count['COUNT(*)']
     }
 
-
 def queryPlayerUsername(uid, cursor):
     sql = "SELECT username FROM profile WHERE uid = '" + str(uid) + "';"
     cursor.execute(sql)
@@ -99,8 +95,6 @@ def queryPlayerUsername(uid, cursor):
     return row['username']
 
 # API for retrieving data about a specific card
-
-
 @app.route('/card/<identifier>')
 @cross_origin()
 def getCardData(identifier):
@@ -114,7 +108,6 @@ def getCardData(identifier):
     cnx.close()
 
     return data
-
 
 def queryCard(identifier, cursor):
     identifier = str(identifier)
@@ -151,9 +144,41 @@ def queryCard(identifier, cursor):
         "ability": getAbilityData(int(row['ability_id']), cursor)
     }
 
+@app.route('/card')
+@cross_origin()
+def getCardStats():
+    cnx = mysql.connector.connect(pool_name="api_pool", **dbconfig)
+    cursor = cnx.cursor(buffered=True, dictionary=True)
+
+    sql = "SELECT * FROM card;"
+    cursor.execute(sql)
+    cards = cursor.fetchall()
+
+    card_stats = []
+
+    for card_row in cards:
+        sql = "SELECT COUNT(*) as matches FROM card_wins WHERE card_id = '" + str(card_row['id']) + "';"
+        cursor.execute(sql)
+        matches = cursor.fetchone()['matches']
+
+        sql = "SELECT COUNT(*) as wins FROM card_wins WHERE card_id = '" + str(card_row['id']) + "' AND did_win = 1;"
+        cursor.execute(sql)
+        wins = cursor.fetchone()['wins']
+
+        card_stats.append({
+            "card" : queryCard(card_row['id'], cursor),
+            "matches" : matches,
+            "wins" : wins
+        })
+
+    card_stats.sort(key=lambda s:(0 if s['matches'] <= 0 else s['wins'] / s['matches']), reverse=True)
+
+    cursor.close()
+    cnx.close()
+
+    return {"card_stats" : card_stats}
+
 # API for retrieving data about a specific deck
-
-
 @app.route('/deck/<id>')
 @cross_origin()
 def getDeckData(id):
@@ -167,7 +192,6 @@ def getDeckData(id):
     cnx.close()
 
     return data
-
 
 def queryDeck(id, cursor):
     sql = "SELECT * FROM deck WHERE id = " + str(id) + ";"
@@ -192,16 +216,12 @@ def queryDeck(id, cursor):
     }
 
 # API for retrieving macro data about the game
-
-
 @app.route('/stats')
 @cross_origin()
 def getStats():
     return {"data": "You requested game stats."}
 
 # API for retrieving data about a specific match between players
-
-
 @app.route('/match/<id>')
 @cross_origin()
 def getMatchData(id):
@@ -214,7 +234,6 @@ def getMatchData(id):
     cnx.close()
 
     return data
-
 
 def queryMatch(id, cursor):
     sql = "SELECT * FROM `match` WHERE id = " + str(id) + ";"
@@ -239,7 +258,6 @@ def getAbilityData(id, cursor):
     row = cursor.fetchone()
 
     return {"id": row['id'], "name": row['name'], "textureName": row['textureName'], "description": row['description']}
-
 
 def getComponentData(id, cursor):
     sql = "SELECT * FROM components WHERE id = '" + str(id) + "';"

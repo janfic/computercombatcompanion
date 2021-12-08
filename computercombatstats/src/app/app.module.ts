@@ -17,6 +17,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import { CardStatsComponent } from './card-stats/card-stats.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import {MatButtonModule} from '@angular/material/button';
     StatsComponent,
     MatchComponent,
     ApiComponent,
-    PlayerSearchComponent
+    PlayerSearchComponent,
+    CardStatsComponent
   ],
   imports: [
     BrowserModule,
