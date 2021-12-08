@@ -10,8 +10,8 @@ import { PlayerComponent } from './player/player.component';
 import { StatsComponent } from './stats/stats.component';
 
 const routes: Routes = [
-  {path: "", component: HomeComponent},
-  {path: "home", component: HomeComponent},
+  {path: "", component: PlayerSearchComponent},
+  {path: "home", component: PlayerSearchComponent},
   {path: "player", component: PlayerSearchComponent},
   {path: "player/:username", component: PlayerComponent},
   {path: "card", component: CardStatsComponent},
