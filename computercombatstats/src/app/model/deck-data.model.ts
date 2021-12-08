@@ -8,4 +8,6 @@ export class DeckData {
     cards: CardData[];
     matches: number;
     wins: number;
+    starttime: string;
+    endtime: string;
 }

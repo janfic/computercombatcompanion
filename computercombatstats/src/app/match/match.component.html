@@ -1,2 +1,74 @@
-<p>Loaded MatchComponent to view data on match with id: {{id}}</p>
-<p>{{data}}</p>
+<div class="body">
+    <div *ngIf="!matchData" class="matchData">
+        <app-loading></app-loading>
+    </div>
+    <div *ngIf="matchData" class="matchData">
+        <h1>Match Data</h1>
+        #{{matchData.id}}
+        <br>
+        {{matchData.starttime}}
+    </div>
+    <div *ngIf="matchData" class="matchFormat">
+        <div class="matchData">
+            <h2>Player 1</h2>
+            <a href="/player/{{matchData.player1}}" style="text-decoration: underline;">{{matchData.player1}}</a>
+            <br>
+            {{matchData.winner == 1 ? 'Loss' : 'Win'}}
+            <br>
+            <a href="/deck/{{matchData.deck1.id}}">
+                <div class="deckInfo">
+                    <h4>Deck</h4>
+                    {{matchData.deck1.name}}
+                    <br>
+                    ID #{{matchData.deck1.id}}
+                    <ul>
+                        <li *ngFor="let card of matchData.deck1.cards">
+                            <a href="/card/{{card.name}}">
+                                <div class="card">
+                                    <img src="../../assets/images/cards/{{card.textureName}}.png" style="width: 35%;">
+                                    <br>
+                                    {{card.name}}
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </a>
+        </div>
+        <div class="matchData" style="flex:4;">
+            <h1>Results</h1>
+            <p>Moves Made: {{matchData.moves}}</p>
+            <p *ngFor="let component of matchData.collected | keyvalue;">
+                <img src="../../assets/images/components/{{component.key}}.png">
+                <br>
+                Collected {{component.value}} {{component.key}} components 
+            </p>
+        </div>
+        <div class="matchData">
+            <h2>Player 2</h2>
+            <a href="/player/{{matchData.player2}}" style="text-decoration: underline;">{{matchData.player2}}</a>
+            <br>
+            {{matchData.winner == 0 ? 'Loss' : 'Win'}}
+            <br>
+            <a href="/deck/{{matchData.deck2.id}}">
+                <div class="deckInfo">
+                    <h4>Deck</h4>
+                    {{matchData.deck2.name}}
+                    <br>
+                    ID #{{matchData.deck2.id}}
+                    <ul>
+                        <li *ngFor="let card of matchData.deck2.cards">
+                            <a href="/card/{{card.name}}">
+                                <div class="card">
+                                    <img src="../../assets/images/cards/{{card.textureName}}.png" style="width: 35%;">
+                                    <br>
+                                    {{card.name}}
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

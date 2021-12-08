@@ -3,6 +3,7 @@ from flask import Flask, jsonify
 import sys
 import json
 import configparser
+from collections import Counter
 # Qualty of Life package for CORS with Flask ( when developing on same machine )
 from flask_cors import CORS, cross_origin
 
@@ -311,6 +312,21 @@ def queryMatch(id, cursor):
     cursor.execute(sql)
     row = cursor.fetchone()
 
+    sql = "SELECT * FROM move WHERE match_id = '" + str(id) + "';"
+    cursor.execute(sql)
+    moves_rows = cursor.fetchall()
+
+    collected = []
+
+    for move_row in moves_rows:
+        sql = "SELECT `data`->'$[*].animations[*].collected.*[*].textureName' AS collected FROM move_results WHERE id = '" + str(move_row['move_results_id']) + "';"
+        cursor.execute(sql)
+        components = cursor.fetchone()
+        if(components['collected']):
+            collected.extend(json.loads(components['collected']))
+
+    collected = Counter(collected)
+
     return {
         "id": row['id'],
         "player1": queryPlayerUsername(row['player1_uid'], cursor),
@@ -319,7 +335,9 @@ def queryMatch(id, cursor):
         "deck2": queryDeck(row['deck2_id'], cursor),
         "winner": row['winner'],
         "starttime": row['starttime'],
-        'endtime': row['endtime']
+        'endtime': row['endtime'],
+        "moves" : len(moves_rows),
+        "collected" : collected
     }
 
 

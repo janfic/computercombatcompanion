@@ -13,7 +13,7 @@ import { MatchData } from '../model/match-data.model';
 export class MatchComponent implements OnInit {
 
   id: number
-  data: string
+  matchData: MatchData
   api: ApiComponent<MatchData>
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
@@ -26,6 +26,6 @@ export class MatchComponent implements OnInit {
       }
     });
     this.api = new ApiComponent(this.http);
-    this.api.getCallToURL("http://localhost:8080/match/" + this.id).subscribe((data: any) => {this.data = JSON.stringify(data)});
+    this.api.getCallToURL("http://localhost:8080/match/" + this.id).subscribe((data: any) => {this.matchData = data});
   }
 }

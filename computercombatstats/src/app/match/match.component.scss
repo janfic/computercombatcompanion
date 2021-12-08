@@ -1,0 +1,70 @@
+.body {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.matchData  {
+    background-color: #6d758d;;
+    width: 80%;
+    padding: 20px;
+    border-radius: 40px;
+    text-align: center;
+    border: 1px solid black;
+    margin: 10px;
+}
+
+.matchFormat {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.matchFormat > * {
+    flex: 1;
+}
+
+.deckInfo {
+    background-color: #8b93af;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 10px;
+    border: 1px solid #8b93af;
+}
+
+a .deckInfo:hover {
+    border-color: white;
+}
+
+li {
+    list-style: none;
+}
+
+ul {
+    list-style: none;
+    padding-inline-start: 0px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.card {
+    border: 1px solid #6d758d;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 5px;
+}
+
+a .card:hover {
+    border-color: white;
+}
+
+img {
+    background-color: #333941;
+    border: 1px solid black;
+}
