@@ -18,6 +18,8 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { CardStatsComponent } from './card-stats/card-stats.component';
+import { LoadingComponent } from './loading/loading.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { CardStatsComponent } from './card-stats/card-stats.component';
     MatchComponent,
     ApiComponent,
     PlayerSearchComponent,
-    CardStatsComponent
+    CardStatsComponent,
+    LoadingComponent,
+    NotfoundComponent
   ],
   imports: [
     BrowserModule,

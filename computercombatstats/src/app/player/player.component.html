@@ -1,5 +1,8 @@
 <div class="body">
-    <div class="playerData">
+    <div  *ngIf="!playerData" class="playerData">
+        <app-loading></app-loading>
+    </div>
+    <div *ngIf="playerData" class="playerData">
         <h1 style="width: 100%; text-align: center">Player</h1>
         <h2 style="width: 100%; text-align: center">{{playerData.username}}</h2>
         <div style="width: 100%; text-align: center">
@@ -8,7 +11,7 @@
             <p>Winrate: {{playerData.matchWins / playerData.matchCount * 100}}%</p>
         </div>
     </div>
-    <div class="info">
+    <div  *ngIf="playerData" class="info">
         <ul class="playerData panel">
             <h3 style="width: 100%; text-align: center">Recent Matches</h3>
             <li *ngFor="let match of playerData.matches; let i = index" class="match"

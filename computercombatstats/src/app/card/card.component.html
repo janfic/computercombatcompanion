@@ -1,5 +1,8 @@
 <div class="body">
-    <div class="cardData">
+    <div  *ngIf="!cardData" class="cardData">
+        <app-loading></app-loading>
+    </div>
+    <div *ngIf="cardData"  class="cardData">
         <div class="cardStats">
             <div>
                 <h2>Card</h2>
@@ -33,7 +36,7 @@
             </div>
         </div>
     </div>
-    <div class="cardData">
+    <div *ngIf="cardData"  class="cardData">
         <h2>Components</h2>
         <ul class="components">
             <li *ngFor="let component of cardData.runComponents; let i = index;" class="component">

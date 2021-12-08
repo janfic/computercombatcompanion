@@ -1,5 +1,8 @@
 <div class='body'>
-    <div class="cardStats">
+    <div  *ngIf="!cardStats" class="cardStats">
+        <app-loading></app-loading>
+    </div>
+    <div *ngIf="cardStats" class="cardStats">
         <h2>Cards</h2>
         <ul class="cards">
             <li *ngFor="let card of cardStats.card_stats; let rank = index;" class="card">

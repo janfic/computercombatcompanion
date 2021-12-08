@@ -1,9 +1,12 @@
 <div class="body">
-    <div class="deckData">
+    <div  *ngIf="!deckData" class="deckData">
+        <app-loading></app-loading>
+    </div>
+    <div *ngIf="deckData" class="deckData">
         <h3>Deck : {{deckData.name}}</h3>
         Owned By: <a href="/player/{{deckData.owner}}">{{deckData.owner}}</a>
     </div>
-    <ul class="deckData">
+    <ul *ngIf="deckData" class="deckData">
         <h3>Cards</h3>
         <ul class="cards">
             <li *ngFor="let card of deckData.cards; let i = index" class="cardPreview">
@@ -14,7 +17,7 @@
             </li>
         </ul>
     </ul>
-    <div class="deckData">
+    <div *ngIf="deckData" class="deckData">
         <h3>Stats</h3>
         <p>Total Matches:</p>
         <p>Wins: </p>
