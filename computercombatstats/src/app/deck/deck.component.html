@@ -19,8 +19,8 @@
     </ul>
     <div *ngIf="deckData" class="deckData">
         <h3>Stats</h3>
-        <p>Total Matches:</p>
-        <p>Wins: </p>
-        <p>Winrate: </p>
+        <p>Total Matches: {{deckData.matches}}</p>
+        <p>Wins: {{deckData.wins}}</p>
+        <p>Win Rate: {{(deckData.matches === 0.00 ? 0 : (deckData.wins / deckData.matches * 100)) | number : '1.2-2'}}</p>
     </div>
 </div>

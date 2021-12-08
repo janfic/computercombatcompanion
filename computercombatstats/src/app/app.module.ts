@@ -20,6 +20,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { CardStatsComponent } from './card-stats/card-stats.component';
 import { LoadingComponent } from './loading/loading.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { DeckStatsComponent } from './deck-stats/deck-stats.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { NotfoundComponent } from './notfound/notfound.component';
     PlayerSearchComponent,
     CardStatsComponent,
     LoadingComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    DeckStatsComponent
   ],
   imports: [
     BrowserModule,

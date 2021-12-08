@@ -6,4 +6,6 @@ export class DeckData {
     id: number;
     owner: string;
     cards: CardData[];
+    matches: number;
+    wins: number;
 }

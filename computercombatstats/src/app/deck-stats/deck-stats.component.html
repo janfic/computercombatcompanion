@@ -1,0 +1,33 @@
+<div class="body">
+    <div *ngIf="!deckStats" class="deckStats">
+        <app-loading></app-loading>
+    </div>
+    <div *ngIf="deckStats" class="deckStats">
+        <h1>Deck Leaderboard</h1>
+        <ul class="decks">
+            <li class="deck">
+                <div>Rank</div>
+                <div>Deck Name</div>
+                <div>ID</div>
+                <div>Owner</div>
+                <div>Total Matches</div>
+                <div>Wins</div>
+                <div>Win Rate</div>
+            </li>
+            <li *ngFor="let deck of deckStats.deck_stats; let i = index;" >
+                <a href="/deck/{{deck.id}}">
+                    <div class="deck" >
+                        <div>{{i + 1}}</div>
+                        <div>{{deck.name}}</div>
+                        <div>{{deck.id}}</div>
+                        <div>{{deck.owner}}</div>
+                        <div>{{deck.matches}}</div>
+                        <div>{{deck.wins}}</div>
+                        <div>{{(deck.matches === 0.00 ? 0 : (deck.wins / deck.matches * 100)) | number : '1.2-2'}}%
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
