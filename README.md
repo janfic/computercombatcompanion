@@ -25,7 +25,7 @@ Front-End Development: Angular, Angular Material : Used to create UI for Web Dev
 Back-End Developement: Flask, Docker, MySQL, Python
 
 ### Project Structure and Files
-computercombatstats - root folder
+`computercombatcompanion` root folder
 * `api` folder containing files to run the API Flask server
     * `apiserver.py` the Flask python file that defines the api, connects to the AWS MySQL server
     * `Dockerfile` A Dockerfile used to create and build the API server
