@@ -26,11 +26,14 @@ Back-End Developement: Flask, Docker, MySQL, Python
 
 ### Project Structure and Files
 computercombatstats - root folder
-    - api : folder containing files to run the API Flask server
-        - apiserver.py
-            - the Flask python file that defines the api, connects to the AWS MySQL server
-        - Dockerfile
-            - A Dockerfile used to create and build the API server
-        - sql.properties
-            - A file containing server connection properties
-    - computercombatstats : folder containing Angular frontend files
+* api : folder containing files to run the API Flask server
+- apiserver.py
+ - the Flask python file that defines the api, connects to the AWS MySQL server
+- Dockerfile
+ - A Dockerfile used to create and build the API server
+- sql.properties
+ - A file containing server connection properties
+- computercombatstats : folder containing Angular frontend files
+
+## Code Repository
+Computer Combat 
