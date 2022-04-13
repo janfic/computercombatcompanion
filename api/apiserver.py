@@ -159,31 +159,21 @@ def getCardStats():
     cnx = mysql.connector.connect(pool_name="api_pool", **dbconfig)
     cursor = cnx.cursor(buffered=True, dictionary=True)
 
-    sql = "SELECT * FROM card;"
+    sql = "SELECT id, COUNT(match_id) as matches, SUM(win) as wins FROM card_stats GROUP BY id ORDER BY id;;"
     cursor.execute(sql)
+    amount = cursor.rowcount
     cards = cursor.fetchall()
 
-    card_stats = []
+    card_stats = [None] * amount
 
     for card_row in cards:
-        sql = "SELECT COUNT(*) as matches FROM card_wins WHERE card_id = '" + \
-            str(card_row['id']) + "';"
-        cursor.execute(sql)
-        matches = cursor.fetchone()['matches']
-
-        sql = "SELECT COUNT(*) as wins FROM card_wins WHERE card_id = '" + \
-            str(card_row['id']) + "' AND did_win = 1;"
-        cursor.execute(sql)
-        wins = cursor.fetchone()['wins']
-
-        card_stats.append({
+        card_stats[card_row['id']] = {
             "card": queryCard(card_row['id'], cursor),
-            "matches": matches,
-            "wins": wins
-        })
+            "matches": card_row['matches'],
+            "wins": card_row['wins']
+        }
 
-    card_stats.sort(key=lambda s: (
-        0 if s['matches'] <= 0 else s['wins'] / s['matches'], -s['matches']), reverse=True)
+    card_stats = sorted(card_stats, key=lambda d: 0 if d['matches'] <= 0 else d['wins'] / d['matches'], reverse=True) 
 
     cursor.close()
     cnx.close()
@@ -213,13 +203,13 @@ def queryDeck(id, cursor):
     cursor.execute(sql)
     deck_row = cursor.fetchone()
 
-    sql = "SELECT COUNT(*) as matches FROM deck_wins WHERE deck_id = '" + \
+    sql = "SELECT COUNT(*) as matches FROM deck_stats WHERE id = '" + \
         str(id) + "';"
     cursor.execute(sql)
     matches = cursor.fetchone()['matches']
 
-    sql = "SELECT COUNT(*) as wins FROM deck_wins WHERE deck_id = '" + \
-        str(id) + "' AND did_win = 1;"
+    sql = "SELECT COUNT(*) as wins FROM deck_stats WHERE id = '" + \
+        str(id) + "' AND win = 1;"
     cursor.execute(sql)
     wins = cursor.fetchone()['wins']
 
@@ -256,13 +246,13 @@ def getDeckStats():
     decks = []
 
     for deck_row in deck_rows:
-        sql = "SELECT COUNT(*) as matches FROM deck_wins WHERE deck_id = '" + \
+        sql = "SELECT COUNT(*) as matches FROM deck_stats WHERE id = '" + \
             str(deck_row['id']) + "';"
         cursor.execute(sql)
         matches = cursor.fetchone()['matches']
 
-        sql = "SELECT COUNT(*) as wins FROM deck_wins WHERE deck_id = '" + \
-            str(deck_row['id']) + "' AND did_win = 1;"
+        sql = "SELECT COUNT(*) as wins FROM deck_stats WHERE id = '" + \
+            str(deck_row['id']) + "' AND win = 1;"
         cursor.execute(sql)
         wins = cursor.fetchone()['wins']
 
