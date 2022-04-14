@@ -37,7 +37,7 @@
         </div>
         <div class="matchData" style="flex:4;">
             <h1>Results</h1>
-            <p>Moves Made: {{matchData.moves}}</p>
+            <p>Moves Made: {{matchData.moves.length}}</p>
             <p *ngFor="let component of matchData.collected | keyvalue;">
                 <img src="../../assets/images/components/{{component.key}}.png">
                 <br>

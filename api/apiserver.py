@@ -302,16 +302,12 @@ def queryMatch(id, cursor):
     cursor.execute(sql)
     row = cursor.fetchone()
 
-    sql = "SELECT * FROM move WHERE match_id = '" + str(id) + "';"
-    cursor.execute(sql)
-    moves_rows = cursor.fetchall()
-
     collected = []
 
-    for move_row in moves_rows:
-        sql = "SELECT `data`->'$[*].animations[*].collected.*[*].textureName' AS collected FROM move_results WHERE id = '" + str(move_row['move_results_id']) + "';"
-        cursor.execute(sql)
-        components = cursor.fetchone()
+    sql = "SELECT `data`->'$[*].animations[*].collected.*[*].textureName' AS collected FROM move WHERE match_id = '" + str(id) + "';"
+    cursor.execute(sql)
+    move_datas = cursor.fetchall()
+    for components in move_datas:
         if(components['collected']):
             collected.extend(json.loads(components['collected']))
 
@@ -326,7 +322,7 @@ def queryMatch(id, cursor):
         "winner": row['winner'],
         "starttime": row['starttime'],
         'endtime': row['endtime'],
-        "moves" : len(moves_rows),
+        "moves" : move_datas,
         "collected" : collected
     }
 
@@ -354,4 +350,4 @@ def getComponentData(id, cursor):
 
 
 # run app
-app.run(host='0.0.0.0', port=5000)
+app.run(host='0.0.0.0', port=8080)

@@ -10,6 +10,6 @@ export class MatchData {
     winner: number;
     starttime: string;
     endtime: string;
-    moves: number;
+    moves: any[];
     collected: any
 }
