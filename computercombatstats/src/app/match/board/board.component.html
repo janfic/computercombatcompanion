@@ -1,0 +1,7 @@
+<div class="board">
+    <div *ngFor="let row of matchData.rows; let i = index" class="rows">
+        <div *ngFor="let tile of row; let i = index" class="rows">
+            <div><img src="/src/assets/images/components/{{ colorToTexture[tile.color] }}.png"></div>
+        </div>
+    </div>
+</div>

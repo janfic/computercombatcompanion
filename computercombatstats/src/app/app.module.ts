@@ -21,6 +21,7 @@ import { CardStatsComponent } from './card-stats/card-stats.component';
 import { LoadingComponent } from './loading/loading.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { DeckStatsComponent } from './deck-stats/deck-stats.component';
+import { BoardComponent } from './match/board/board.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { DeckStatsComponent } from './deck-stats/deck-stats.component';
     CardStatsComponent,
     LoadingComponent,
     NotfoundComponent,
-    DeckStatsComponent
+    DeckStatsComponent,
+    BoardComponent
   ],
   imports: [
     BrowserModule,
