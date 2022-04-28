@@ -37,12 +37,8 @@
         </div>
         <div class="matchData" style="flex:4;">
             <h1>Results</h1>
-            <p>Moves Made: {{matchData.moves.length}}</p>
-            <p *ngFor="let component of matchData.collected | keyvalue;">
-                <img src="../../assets/images/components/{{component.key}}.png">
-                <br>
-                Collected {{component.value}} {{component.key}} components 
-            </p>
+            <p>Moves Made: {{matchData.moves.length - 1}}</p>
+            <app-board [moves]="matchData.moves"></app-board>
         </div>
         <div class="matchData">
             <h2>Player 2</h2>

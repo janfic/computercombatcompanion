@@ -1,7 +1,15 @@
+<div class="moveControls">
+    <button [style.visibility]="moveIndex <= 0 ? 'hidden' : 'visible'" (click)="changeMove(-1)">
+        <img src="/assets/images/left_arrow.png">
+    </button>
+    <span>{{moveIndex}}</span>
+    <button [style.visibility]="moveIndex >= moves.length - 1 ? 'hidden' : 'visible'" (click)="changeMove(1)">
+        <img src="/assets/images/right_arrow.png">
+    </button>
+</div>
 <div class="board">
-    <div *ngFor="let row of matchData.rows; let i = index" class="rows">
-        <div *ngFor="let tile of row; let i = index" class="rows">
-            <div><img src="/src/assets/images/components/{{ colorToTexture[tile.color] }}.png"></div>
-        </div>
+    <div *ngFor="let row of counter(8); let i = index" class="row">
+        <img *ngFor="let component of counter(8); let j = index" 
+        src="/assets/images/components/{{ colorToTexture[moves[moveIndex][boardStateIndex].recordedState.componentBoard.split('')[i + j * 8]] }}.png">
     </div>
 </div>

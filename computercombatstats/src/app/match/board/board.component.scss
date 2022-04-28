@@ -1,0 +1,36 @@
+.row {
+    display: flex;
+    gap: 1ch;
+}
+
+.row img {
+    width: 48px;
+}
+
+.board {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1ch;
+}
+
+.moveControls {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+button {
+    border: 0;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+}
+
+.moveControls button img {
+    width: 32px;
+}
+
+.moveControls span {
+    font-size: 32px;
+}

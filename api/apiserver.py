@@ -17,7 +17,8 @@ dbconfig = {
     "user": sql_config['DEFAULT']['user'],
     "password": sql_config['DEFAULT']['password'],
     "host": sql_config['DEFAULT']['host'],
-    "database": sql_config['DEFAULT']['database']
+    "database": sql_config['DEFAULT']['database'],
+    "port": sql_config['DEFAULT']['port']
 }
 
 cnx = mysql.connector.connect(pool_name="api_pool", **dbconfig)
@@ -302,16 +303,14 @@ def queryMatch(id, cursor):
     cursor.execute(sql)
     row = cursor.fetchone()
 
-    collected = []
-
-    sql = "SELECT `data`->'$[*].animations[*].collected.*[*].textureName' AS collected FROM move WHERE match_id = '" + str(id) + "';"
+    sql = "SELECT `data` FROM move WHERE match_id = '" + str(id) + "';"
     cursor.execute(sql)
-    move_datas = cursor.fetchall()
-    for components in move_datas:
-        if(components['collected']):
-            collected.extend(json.loads(components['collected']))
+    data = cursor.fetchall()
+    
+    json_moves = []
 
-    collected = Counter(collected)
+    for move in data:
+        json_moves.append(json.loads(move['data']))
 
     return {
         "id": row['id'],
@@ -322,8 +321,8 @@ def queryMatch(id, cursor):
         "winner": row['winner'],
         "starttime": row['starttime'],
         'endtime': row['endtime'],
-        "moves" : move_datas,
-        "collected" : collected
+        "moves" : json_moves,
+        "collected" : 0
     }
 
 
