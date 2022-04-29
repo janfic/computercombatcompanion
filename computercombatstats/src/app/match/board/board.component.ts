@@ -37,5 +37,18 @@ export class BoardComponent implements OnInit {
 
   changeMove(i: number) {
     this.moveIndex += i;
+    this.boardStateIndex = 0;
+  }
+
+  changeStep(i: number) {
+    this.boardStateIndex += i;
+    if(this.boardStateIndex < 0) {
+      this.moveIndex--;
+      this.boardStateIndex = this.moves[this.moveIndex].length - 1;
+    }
+    else if (this.boardStateIndex >= this.moves[this.moveIndex].length) {
+      this.moveIndex++;
+      this.boardStateIndex = 0;
+    }
   }
 }

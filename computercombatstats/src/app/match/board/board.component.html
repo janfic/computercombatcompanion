@@ -1,12 +1,3 @@
-<div class="moveControls">
-    <button [style.visibility]="moveIndex <= 0 ? 'hidden' : 'visible'" (click)="changeMove(-1)">
-        <img src="/assets/images/left_arrow.png">
-    </button>
-    <span>{{moveIndex}}</span>
-    <button [style.visibility]="moveIndex >= moves.length - 1 ? 'hidden' : 'visible'" (click)="changeMove(1)">
-        <img src="/assets/images/right_arrow.png">
-    </button>
-</div>
 <div class="matchPreview">
     <div class="panel">
         <div>Player 1</div>
@@ -25,5 +16,26 @@
         <div *ngFor="let card of moves[moveIndex][boardStateIndex].recordedState.activeEntities[player2UID]; let i = index">
             <app-active-card [activeCard]="card" [reversed]="true"></app-active-card>
         </div>
+    </div>
+</div>
+<div class="controls">
+    Replay Controls
+    <div class="moveControls">
+        <button [style.visibility]="moveIndex <= 0 ? 'hidden' : 'visible'" (click)="changeMove(-1)">
+            <img src="/assets/images/left_arrow.png">
+        </button>
+        <span>Move #{{moveIndex}}</span>
+        <button [style.visibility]="moveIndex >= moves.length - 1 ? 'hidden' : 'visible'" (click)="changeMove(1)">
+            <img src="/assets/images/right_arrow.png">
+        </button>
+    </div>
+    <div class="stepControls">
+        <button [style.visibility]="moveIndex <= 0 && boardStateIndex <= 0 ? 'hidden' : 'visible'" (click)="changeStep(-1)">
+            <img src="/assets/images/left_arrow.png">
+        </button>
+        <span>Step: {{boardStateIndex}}</span>
+        <button [style.visibility]="moveIndex >= moves.length - 1 ? 'hidden' : 'visible'" (click)="changeStep(1)">
+            <img src="/assets/images/right_arrow.png">
+        </button>
     </div>
 </div>
