@@ -1,0 +1,16 @@
+<div class="activeCard"> 
+    <div class="stats" *ngIf="!reversed">
+        <span style="color: lightgreen">{{activeCard.health}}</span>
+        <span style="color: white">{{activeCard.armor}}</span>
+        <img src="assets/images/cards/{{card.textureName}}.png">
+        <span style="color: red">{{activeCard.attack}}</span>
+        <span style="color: cyan">{{activeCard.runProgress}}</span>
+    </div>
+    <div class="stats" *ngIf="reversed">
+        <span style="color: cyan">{{activeCard.runProgress}}</span>
+        <span style="color: red">{{activeCard.attack}}</span>
+        <img src="assets/images/cards/{{card.textureName}}.png">
+        <span style="color: white">{{activeCard.armor}}</span>
+        <span style="color: lightgreen">{{activeCard.health}}</span>
+    </div>
+</div>

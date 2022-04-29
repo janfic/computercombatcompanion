@@ -21,10 +21,14 @@ export class BoardComponent implements OnInit {
   moveIndex: number = 0;
   boardStateIndex: number = 0;
   @Input() moves: any;
+  player1UID: string;
+  player2UID: string;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
+    this.player1UID = this.moves[this.moveIndex][this.boardStateIndex].recordedState.players[0].uid;
+    this.player2UID = this.moves[this.moveIndex][this.boardStateIndex].recordedState.players[1].uid;
   }
 
   counter(i: number) {

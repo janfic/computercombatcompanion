@@ -1,0 +1,21 @@
+.activeCard {
+    border: 1px solid #8b93af;
+    background-color: #8b93af;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.stats img {
+    width: 92px;
+}
+
+.stats {
+    display: flex;
+    align-items: center;
+}
+
+.stats span {
+    padding: 3px;
+    margin: 2px;
+}

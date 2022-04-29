@@ -22,6 +22,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { DeckStatsComponent } from './deck-stats/deck-stats.component';
 import { BoardComponent } from './match/board/board.component';
+import { ActiveCardComponent } from './active-card/active-card.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { BoardComponent } from './match/board/board.component';
     LoadingComponent,
     NotfoundComponent,
     DeckStatsComponent,
-    BoardComponent
+    BoardComponent,
+    ActiveCardComponent
   ],
   imports: [
     BrowserModule,

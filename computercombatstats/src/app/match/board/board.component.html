@@ -7,9 +7,23 @@
         <img src="/assets/images/right_arrow.png">
     </button>
 </div>
-<div class="board">
-    <div *ngFor="let row of counter(8); let i = index" class="row">
-        <img *ngFor="let component of counter(8); let j = index" 
-        src="/assets/images/components/{{ colorToTexture[moves[moveIndex][boardStateIndex].recordedState.componentBoard.split('')[i + j * 8]] }}.png">
+<div class="matchPreview">
+    <div class="panel">
+        <div>Player 1</div>
+        <div *ngFor="let card of moves[moveIndex][boardStateIndex].recordedState.activeEntities[player1UID]; let i = index" class="activeCard">
+            <app-active-card [activeCard]="card" [reversed]="false"></app-active-card>
+        </div>
+    </div>
+    <div class="board">
+        <div *ngFor="let row of counter(8); let i = index" class="row">
+            <img *ngFor="let component of counter(8); let j = index"
+                src="/assets/images/components/{{ colorToTexture[moves[moveIndex][boardStateIndex].recordedState.componentBoard.split('')[i + j * 8]] }}.png">
+        </div>
+    </div>
+    <div class="panel">
+        <div>Player 2</div>
+        <div *ngFor="let card of moves[moveIndex][boardStateIndex].recordedState.activeEntities[player2UID]; let i = index">
+            <app-active-card [activeCard]="card" [reversed]="true"></app-active-card>
+        </div>
     </div>
 </div>
